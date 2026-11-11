@@ -1,0 +1,318 @@
+{
+  "summary": {
+    "total_cases": 1,
+    "scored_cases": 1,
+    "unscored_cases": 0,
+    "score_0_100": 80.0,
+    "partial_mean_0_100": null
+  },
+  "config": {
+    "provider": "openrouter",
+    "model": "openai/gpt-4o-mini",
+    "judge_provider": "openrouter",
+    "judge_model": "openai/gpt-4o-mini",
+    "max_steps": 8,
+    "dataset": "core"
+  },
+  "cases": [
+    {
+      "id": "E2",
+      "question": "Cloudflare cache purge có incident nào liên quan không? Một website CLB không thuộc FedRAMP có chắc bị ảnh hưởng không?",
+      "expected": "Incident wp49bp8bqo6c identified; update ban đầu nói non-FedRAMP không bị ảnh hưởng bởi incident này. Không khẳng định nguyên nhân lỗi website.",
+      "scenario": "normal",
+      "provider": "openrouter",
+      "model": "openai/gpt-4o-mini",
+      "judge_provider": "openrouter",
+      "judge_model": "openai/gpt-4o-mini",
+      "result": {
+        "status": "completed",
+        "answer": "Hiện tại, có một sự cố liên quan đến việc xóa bộ nhớ đệm (cache purge) trên Cloudflare dành cho khách hàng sử dụng FedRAMP. Cụ thể:\n\n### Sự cố hiện tại\n1. **Tên sự cố**: [Khách hàng FedRAMP gặp sự cố trễ trong việc xóa bộ nhớ đệm](https://www.cloudflarestatus.com/incidents/wp49bp8bqo6c)\n   - **Trạng thái**: Đã xác định\n   - **Thời gian bắt đầu**: 06-11-2026\n   - **Chi tiết**: Cloudflare đã xác định một lỗi trong quy trình xóa bộ nhớ đệm đang ảnh hưởng đến khách hàng FedRAMP. Nội dung cũ có thể được phục vụ cho đến khi hết hạn. **Khách hàng không thuộc FedRAMP không bị ảnh hưởng**.\n\n### Sự cố lịch sử gần đây\n2. **Tên sự cố**: [Trễ trong việc xóa bộ nhớ đệm tại Qingdao, Shandong, Trung Quốc](https://www.cloudflarestatus.com/incidents/5tlm9r9j9rpo)\n   - **Trạng thái**: Đã giải quyết\n   - **Thời gian bắt đầu**: 31-10-2026\n   - **Chi tiết**: Cloudflare đã quan sát thấy sự chậm trễ trong việc xóa bộ nhớ đệm.\n\n3. **Tên sự cố**: [Trễ trong việc xóa bộ nhớ đệm ảnh hưởng đến yêu cầu thông qua EEUR](https://www.cloudflarestatus.com/incidents/8s6pn9rvof3l)\n   - **Trạng thái**: Đã giải quyết\n   - **Thời gian bắt đầu**: 27-10-2026\n   - **Chi tiết**: Một số yêu cầu xóa bộ nhớ đệm theo từng tệp (purge by URL) đang gặp phải sự chậm trễ.\n\n### Kết luận\nMột website không thuộc FedRAMP **không** bị ảnh hưởng bởi sự cố hiện tại liên quan đến việc xóa bộ nhớ đệm tại Cloudflare. Những khách hàng không trong chương trình FedRAMP sẽ không gặp vấn đề nào trong việc xóa bộ nhớ đệm của họ.",
+        "trace": [
+          {
+            "event": "tool",
+            "step": 1,
+            "name": "get_status",
+            "arguments": "{\"provider\":\"cloudflare\",\"component\":\"cache\"}",
+            "result": {
+              "provider": "cloudflare",
+              "captured_at": "2026-11-09T03:50:47.638054+00:00",
+              "overall": {
+                "indicator": "major",
+                "description": "Partial System Outage"
+              },
+              "components": [
+                {
+                  "name": "CDN/Cache",
+                  "status": "operational"
+                },
+                {
+                  "name": "Cache Reserve",
+                  "status": "operational"
+                },
+                {
+                  "name": "CDN Cache Purge",
+                  "status": "degraded_performance"
+                }
+              ],
+              "incidents": [
+                {
+                  "id": "wp49bp8bqo6c",
+                  "name": "Fedramp Customers have Delayed Purges",
+                  "status": "identified",
+                  "updated_at": "2026-11-06T17:59:13.680Z"
+                },
+                {
+                  "id": "5tlm9r9j9rpo",
+                  "name": "Cache purge delays in Qingdao Shandong, China",
+                  "status": "resolved",
+                  "updated_at": "2026-10-31T06:57:35.247Z"
+                },
+                {
+                  "id": "8s6pn9rvof3l",
+                  "name": "Cache Purging Delays Affecting Requests Routed Through EEUR",
+                  "status": "resolved",
+                  "updated_at": "2026-10-27T16:14:34.056Z"
+                }
+              ],
+              "matching_incidents_in_last_50": 3,
+              "note": "Chỉ tìm theo chuỗi trong 50 incident gần nhất; không tìm thấy không chứng minh không có sự cố.",
+              "source": "https://www.cloudflarestatus.com"
+            }
+          },
+          {
+            "event": "tool",
+            "step": 2,
+            "name": "get_incident_details",
+            "arguments": "{\"provider\": \"cloudflare\", \"incident_id\": \"wp49bp8bqo6c\"}",
+            "result": {
+              "ok": true,
+              "provider": "cloudflare",
+              "captured_at": "2026-11-09T03:50:47.638054+00:00",
+              "id": "wp49bp8bqo6c",
+              "name": "Fedramp Customers have Delayed Purges",
+              "status": "identified",
+              "created_at": "2026-11-06T17:47:15.545Z",
+              "updated_at": "2026-11-06T17:59:13.680Z",
+              "components": [
+                "CDN Cache Purge"
+              ],
+              "updates": [
+                {
+                  "status": "identified",
+                  "created_at": "2026-11-06T17:59:13.680Z",
+                  "body": "We are continuing to work on a fix for the issue.",
+                  "truncated": false
+                },
+                {
+                  "status": "investigating",
+                  "created_at": "2026-11-06T17:47:15.545Z",
+                  "body": "Cloudflare has identified a bug with our purge pipeline impacting fedramp customers. Stale content may be served until expired. Non-fedramp customers are not impacted. ",
+                  "truncated": false
+                }
+              ],
+              "updates_total": 2,
+              "url": "https://www.cloudflarestatus.com/incidents/wp49bp8bqo6c"
+            }
+          },
+          {
+            "event": "tool",
+            "step": 2,
+            "name": "get_incident_details",
+            "arguments": "{\"provider\": \"cloudflare\", \"incident_id\": \"5tlm9r9j9rpo\"}",
+            "result": {
+              "ok": true,
+              "provider": "cloudflare",
+              "captured_at": "2026-11-09T03:50:47.638054+00:00",
+              "id": "5tlm9r9j9rpo",
+              "name": "Cache purge delays in Qingdao Shandong, China",
+              "status": "resolved",
+              "created_at": "2026-10-31T06:41:15.562Z",
+              "updated_at": "2026-10-31T06:57:35.247Z",
+              "components": [
+                "CDN Cache Purge"
+              ],
+              "updates": [
+                {
+                  "status": "resolved",
+                  "created_at": "2026-10-31T06:57:35.247Z",
+                  "body": "This incident has been resolved.",
+                  "truncated": false
+                },
+                {
+                  "status": "monitoring",
+                  "created_at": "2026-10-31T06:50:05.303Z",
+                  "body": "A fix has been implemented and we are monitoring the results.",
+                  "truncated": false
+                },
+                {
+                  "status": "investigating",
+                  "created_at": "2026-10-31T06:41:15.562Z",
+                  "body": "Cloudflare is observing cache purge delay in Qingdao in Shandong, China. \nWe are working to resolve this issue as soon as possible. More updates to follow.",
+                  "truncated": false
+                }
+              ],
+              "updates_total": 3,
+              "url": "https://www.cloudflarestatus.com/incidents/5tlm9r9j9rpo"
+            }
+          },
+          {
+            "event": "tool",
+            "step": 2,
+            "name": "get_incident_details",
+            "arguments": "{\"provider\": \"cloudflare\", \"incident_id\": \"8s6pn9rvof3l\"}",
+            "result": {
+              "ok": true,
+              "provider": "cloudflare",
+              "captured_at": "2026-11-09T03:50:47.638054+00:00",
+              "id": "8s6pn9rvof3l",
+              "name": "Cache Purging Delays Affecting Requests Routed Through EEUR",
+              "status": "resolved",
+              "created_at": "2026-10-27T15:10:35.555Z",
+              "updated_at": "2026-10-27T16:14:34.056Z",
+              "components": [
+                "CDN Cache Purge",
+                "Stockholm, Sweden - (ARN)"
+              ],
+              "updates": [
+                {
+                  "status": "resolved",
+                  "created_at": "2026-10-27T16:14:34.056Z",
+                  "body": "This incident has been resolved.",
+                  "truncated": false
+                },
+                {
+                  "status": "monitoring",
+                  "created_at": "2026-10-27T16:02:33.460Z",
+                  "body": "A fix has been implemented and we are monitoring the results.",
+                  "truncated": false
+                },
+                {
+                  "status": "investigating",
+                  "created_at": "2026-10-27T15:10:35.555Z",
+                  "body": "Some single-file cache purge requests (purge by URL) submitted through the Dashboard or API and routed through our EEUR purge queues are experiencing delays of up to 30 minutes. Cache invalidation for these requests may be delayed across our global network. This also affects Always Online.\nWe are working to resolve the issue. As a temporary workaround, you may use Purge Everything, but this may cause a surge in traffic to your origin server(s)\n\nMore updates to follow.",
+                  "truncated": false
+                }
+              ],
+              "updates_total": 3,
+              "url": "https://www.cloudflarestatus.com/incidents/8s6pn9rvof3l"
+            }
+          }
+        ],
+        "usage": [
+          {
+            "prompt_tokens": 255,
+            "completion_tokens": 19,
+            "total_tokens": 274,
+            "cost": 4.965e-05,
+            "is_byok": false,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "audio_tokens": 0,
+              "video_tokens": 0
+            },
+            "cost_details": {
+              "upstream_inference_cost": 4.965e-05,
+              "upstream_inference_prompt_cost": 3.825e-05,
+              "upstream_inference_completions_cost": 1.14e-05
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "image_tokens": 0,
+              "audio_tokens": 0
+            }
+          },
+          {
+            "prompt_tokens": 612,
+            "completion_tokens": 107,
+            "total_tokens": 719,
+            "cost": 0.000156,
+            "is_byok": false,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "audio_tokens": 0,
+              "video_tokens": 0
+            },
+            "cost_details": {
+              "upstream_inference_cost": 0.000156,
+              "upstream_inference_prompt_cost": 9.18e-05,
+              "upstream_inference_completions_cost": 6.42e-05
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "image_tokens": 0,
+              "audio_tokens": 0
+            }
+          },
+          {
+            "prompt_tokens": 1737,
+            "completion_tokens": 484,
+            "total_tokens": 2221,
+            "cost": 0.00055095,
+            "is_byok": false,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "audio_tokens": 0,
+              "video_tokens": 0
+            },
+            "cost_details": {
+              "upstream_inference_cost": 0.00055095,
+              "upstream_inference_prompt_cost": 0.00026055,
+              "upstream_inference_completions_cost": 0.0002904
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "image_tokens": 0,
+              "audio_tokens": 0
+            }
+          }
+        ]
+      },
+      "grade": {
+        "score": 80,
+        "raw_judge_score": 80,
+        "dimensions": {
+          "factuality": 35,
+          "completeness": 20,
+          "evidence": 15,
+          "boundaries": 10
+        },
+        "status": "scored",
+        "reason": "Câu trả lời đưa ra thông tin về sự cố wp49bp8bqo6c và xác nhận rằng khách hàng non-FedRAMP không bị ảnh hưởng, đáp ứng yêu cầu của câu hỏi. Tuy nhiên, thông tin về thời gian bắt đầu của sự cố không chính xác và có thể gây nhầm lẫn.",
+        "improvement": "Cần chú thích rõ ràng về thời gian và tình trạng sự cố để tránh nhầm lẫn, đồng thời nên làm rõ rằng không khẳng định nguyên nhân lỗi của website.",
+        "mechanical": {
+          "violations": [],
+          "score_cap": 100,
+          "tool_calls": 4,
+          "tool_steps": 2
+        },
+        "judge_usage": {
+          "prompt_tokens": 2562,
+          "completion_tokens": 153,
+          "total_tokens": 2715,
+          "cost": 0.0004761,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.0004761,
+            "upstream_inference_prompt_cost": 0.0003843,
+            "upstream_inference_completions_cost": 9.18e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "judge_trace_truncated": false
+      }
+    }
+  ]
+}
